@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
+const multer = require("multer");
 
 const { User } = require("./models/user");
 
