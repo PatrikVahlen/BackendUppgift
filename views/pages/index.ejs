@@ -12,11 +12,19 @@
     </header>
 
     <main>
-        <div class="jumbotron">
-            <h1>This is great</h1>
-            <p>Welcome to templating using EJS</p>
-            <h1>Hello <%= username %>!</h1>
-            <a href="/logout">Log out</a>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="jumbotron">
+                    <h1>Hello <%= username %>!</h1>
+                    <form method="POST">
+                        Content:<br />
+                        <textarea name="content"></textarea><br />
+                        <input type="submit" value="Save" />
+                    </form>
+                    <a href="/logout">Log out</a>
+                </div>
+            </div class="col-sm-4">TEXT HERE
+        </div>
         </div>
     </main>
 

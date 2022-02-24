@@ -6,6 +6,7 @@ const MongoStore = require('connect-mongo');
 const multer = require("multer");
 
 const { User } = require("./models/user");
+const { Tweet } = require("./models/tweets");
 
 const app = express()
 const PORT = 3000;
@@ -26,8 +27,9 @@ app.use(session({
 app.use(passport.authenticate("session"));
 
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
     if (req.user) {
+        const entries = await Tweet.find({ user: req.user._id });
         res.render("pages/index.ejs", { username: req.user.username });
     } else {
         res.redirect("login")
@@ -52,6 +54,14 @@ app.post("/signup", async (req, res) => {
     await user.setPassword(password);
     await user.save();
     res.redirect("/login");
+});
+
+app.post("/", async (req, res) => {
+    const { title, content } = req.body;
+    const user = req.user;
+    const entry = new Tweet({ content, user: user._id });
+    await entry.save();
+    res.redirect("/");
 });
 
 app.get("/logout", (req, res) => {
