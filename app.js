@@ -20,7 +20,7 @@ app.use(session({
     secret: "avsd1234",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1/backend11' })
+    store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1/backendUppgift' })
 }));
 
 app.use(passport.authenticate("session"));
@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
     if (req.user) {
         res.render("index.ejs", { username: req.user.username });
     } else {
-        redirect("/login")
+        res.redirect("/login")
     }
 });
 
@@ -54,7 +54,12 @@ app.post("/signup", async (req, res) => {
     res.redirect("/login");
 });
 
-mongoose.connect("mongodb://127.0.0.1/backend11");
+app.get("/logout", (req, res) => {
+    req.logout();
+    res.redirect("./login");
+});
+
+mongoose.connect("mongodb://127.0.0.1/backedUppgift");
 
 app.listen(PORT, () => {
     console.log(`Started Express server on port ${PORT}`);
