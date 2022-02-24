@@ -28,14 +28,14 @@ app.use(passport.authenticate("session"));
 
 app.get("/", (req, res) => {
     if (req.user) {
-        res.render("index.ejs", { username: req.user.username });
+        res.render("pages/index.ejs", { username: req.user.username });
     } else {
-        res.redirect("/login")
+        res.redirect("login")
     }
 });
 
 app.get("/login", (req, res) => {
-    res.render("login.ejs")
+    res.render("pages/login.ejs")
 });
 
 app.post("/login", passport.authenticate("local", {
@@ -43,7 +43,7 @@ app.post("/login", passport.authenticate("local", {
 }));
 
 app.get("/signup", (req, res) => {
-    res.render("signup.ejs");
+    res.render("pages/signup.ejs");
 })
 
 app.post("/signup", async (req, res) => {
