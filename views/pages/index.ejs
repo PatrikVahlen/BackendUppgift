@@ -23,7 +23,17 @@
                     </form>
                     <a href="/logout">Log out</a>
                 </div>
-            </div class="col-sm-4">TEXT HERE
+            </div class="col-sm-4">
+            <% entries.forEach(entry=> { %>
+                <div class="entry">
+                    <p>
+                        <%= entry.content %>
+                    </p>
+                    <p>
+                        <%= entry.date %>
+                    </p>
+                </div>
+                <% }) %>
         </div>
         </div>
     </main>

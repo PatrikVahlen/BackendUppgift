@@ -30,7 +30,7 @@ app.use(passport.authenticate("session"));
 app.get("/", async (req, res) => {
     if (req.user) {
         const entries = await Tweet.find({ user: req.user._id });
-        res.render("pages/index.ejs", { username: req.user.username });
+        res.render("pages/index.ejs", { username: req.user.username, entries });
     } else {
         res.redirect("login")
     }
@@ -57,7 +57,7 @@ app.post("/signup", async (req, res) => {
 });
 
 app.post("/", async (req, res) => {
-    const { title, content } = req.body;
+    const { content } = req.body;
     const user = req.user;
     const entry = new Tweet({ content, user: user._id });
     await entry.save();
@@ -69,7 +69,7 @@ app.get("/logout", (req, res) => {
     res.redirect("./login");
 });
 
-mongoose.connect("mongodb://127.0.0.1/backedUppgift");
+mongoose.connect("mongodb://127.0.0.1/backendUppgift");
 
 app.listen(PORT, () => {
     console.log(`Started Express server on port ${PORT}`);
