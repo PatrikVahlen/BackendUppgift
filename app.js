@@ -8,6 +8,7 @@ const multer = require("multer");
 
 const { User } = require("./models/user");
 const { Tweet } = require("./models/tweets");
+const { Profile } = require("./models/profile");
 
 const app = express()
 const PORT = 3000;
@@ -30,7 +31,7 @@ app.use(passport.authenticate("session"));
 
 app.get("/", async (req, res) => {
     if (req.user) {
-        // const entries = await Tweet.find({ user: req.user._id });
+        //const entries = await Tweet.find({ user: req.user._id });
         const entries = await Tweet.find().exec();
         res.render("pages/index.ejs", { username: req.user.username, entries });
     } else {
@@ -50,6 +51,10 @@ app.get("/signup", (req, res) => {
     res.render("pages/signup.ejs");
 })
 
+app.get("/profile", (req, res) => {
+    res.render("pages/profile.ejs");
+})
+
 app.post("/signup", async (req, res) => {
     const { username, password } = req.body;
     const user = new User({ username });
@@ -60,10 +65,20 @@ app.post("/signup", async (req, res) => {
 
 app.post("/", async (req, res) => {
     const { content } = req.body;
+    console.log(content);
     const user = req.user;
     const entry = new Tweet({ content, user: user._id });
     await entry.save();
     res.redirect("/");
+});
+
+app.post("/profile", async (req, res) => {
+    const { name } = req.body;
+    console.log(name);
+    const user = req.user;
+    const entry = new Profile({ name, user: user._id });
+    await entry.save();
+    res.redirect("/profile");
 });
 
 app.get("/logout", (req, res) => {
