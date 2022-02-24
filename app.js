@@ -4,6 +4,7 @@ const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
 const multer = require("multer");
+//const bootstrap = require("bootstrap");
 
 const { User } = require("./models/user");
 const { Tweet } = require("./models/tweets");
@@ -29,7 +30,8 @@ app.use(passport.authenticate("session"));
 
 app.get("/", async (req, res) => {
     if (req.user) {
-        const entries = await Tweet.find({ user: req.user._id });
+        // const entries = await Tweet.find({ user: req.user._id });
+        const entries = await Tweet.find().exec();
         res.render("pages/index.ejs", { username: req.user.username, entries });
     } else {
         res.redirect("login")
