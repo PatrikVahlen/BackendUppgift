@@ -44,7 +44,8 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", passport.authenticate("local", {
-    successRedirect: "/"
+    successRedirect: "/",
+    failureRedirect: "/login"
 }));
 
 app.get("/signup", (req, res) => {
@@ -56,8 +57,9 @@ app.get("/profile", (req, res) => {
 })
 
 app.post("/signup", async (req, res) => {
+    const name = null;
     const { username, password } = req.body;
-    const user = new User({ username });
+    const user = new User({ username, name });
     await user.setPassword(password);
     await user.save();
     res.redirect("/login");
@@ -72,12 +74,21 @@ app.post("/", async (req, res) => {
     res.redirect("/");
 });
 
+// app.post("/profile", async (req, res) => {
+//     const { name } = req.body;
+//     console.log(name);
+//     const user = req.user;
+//     console.log(user);
+//     const entry = new Profile({ name, user: user._id });
+//     await entry.save();
+//     res.redirect("/profile");
+// });
+
 app.post("/profile", async (req, res) => {
     const { name } = req.body;
     console.log(name);
     const user = req.user;
-    const entry = new Profile({ name, user: user._id });
-    await entry.save();
+    await User.updateOne({ _id: user }, { name: name })
     res.redirect("/profile");
 });
 
