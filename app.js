@@ -53,12 +53,12 @@ app.get("/signup", (req, res) => {
 })
 
 app.get("/profile", (req, res) => {
-    res.render("pages/profile.ejs");
+    res.render("pages/profile.ejs", { name: req.user.name });
 })
 
 app.post("/signup", async (req, res) => {
-    const name = null;
     const { username, password } = req.body;
+    const name = username;
     const user = new User({ username, name });
     await user.setPassword(password);
     await user.save();
