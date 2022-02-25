@@ -59,10 +59,20 @@ app.get("/profile", (req, res) => {
     res.render("pages/profile.ejs", { name: req.user.name });
 })
 
-app.get("/:profileId", (req, res) => {
+app.get("/:profileId", async (req, res) => {
     const profileId = req.params.profileId;
+    const entries = await Tweet
+        .find({})
+        .populate("user")
+        .exec();
+    console.log(entries);
     console.log(profileId);
-    res.render("pages/visitprofile.ejs", { profileId });
+    res.render("pages/visitprofile.ejs", { profileId, entries });
+})
+
+app.post(":profileId", async (req, res) => {
+    console.log("profileId")
+    res.redirect("/")
 })
 
 app.post("/signup", async (req, res) => {
