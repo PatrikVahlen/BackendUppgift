@@ -105,7 +105,6 @@ app.post("/", async (req, res) => {
 
 app.post("/profile", async (req, res) => {
     const { name } = req.body;
-    // console.log(name);
     const user = req.user;
     await User.updateOne({ _id: user }, { name: name })
     res.redirect("/profile");
@@ -115,12 +114,6 @@ app.get("/logout", (req, res) => {
     req.logout();
     res.redirect("./login");
 });
-
-
-console.log(Tweet.findOne({ user: "62179436d51b45608ff6b9c1" }).populate("user").exec());
-
-
-
 
 mongoose.connect("mongodb://127.0.0.1/backendUppgift");
 
