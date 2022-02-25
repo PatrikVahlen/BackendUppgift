@@ -49,7 +49,7 @@ app.get("/", async (req, res) => {
             .find()
             .populate("user")
             .exec();
-        res.render("pages/index.ejs", { username: req.user.username, entries });
+        res.render("pages/index.ejs", { username: req.user.name, entries });
     } else {
         res.redirect("login")
     }
@@ -92,12 +92,12 @@ app.post(":profileId", async (req, res) => {
 app.post("/signup", async (req, res) => {
     const { username, password } = req.body;
     const name = username;
-    // const img = {
-    //     data: fs.readFileSync(path.join(__dirname + '/uploads/' + "bild.jpg")),
-    //     contentType: 'image/png'
-    // };
+    const img = {
+        data: fs.readFileSync(path.join(__dirname + '/uploads/' + "bild.jpg")),
+        contentType: 'image/png'
+    };
 
-    const user = new User({ username, name });
+    const user = new User({ username, name, img });
     await user.setPassword(password);
     await user.save();
     res.redirect("/login");
