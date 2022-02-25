@@ -4,13 +4,16 @@ const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
 const multer = require("multer");
+const fs = require('fs');
+const path = require('path');
 
 const { User } = require("./models/user");
 const { Tweet } = require("./models/tweets");
 
-
 const app = express()
 const PORT = 3000;
+
+const upload = multer({ dest: 'uploads/' });
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -27,6 +30,16 @@ app.use(session({
 
 app.use(passport.authenticate("session"));
 
+//What is this?
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
 
 app.get("/", async (req, res) => {
     if (req.user) {
@@ -56,7 +69,8 @@ app.get("/signup", (req, res) => {
 })
 
 app.get("/profile", (req, res) => {
-    res.render("pages/profile.ejs", { name: req.user.name });
+    res.render("pages/profile.ejs", { name: req.user.name, image: req.user });
+
 })
 
 app.get("/:profileId", async (req, res) => {
@@ -65,8 +79,8 @@ app.get("/:profileId", async (req, res) => {
         .find({})
         .populate("user")
         .exec();
-    console.log(entries);
-    console.log(profileId);
+    // console.log(entries);
+    // console.log(profileId);
     res.render("pages/visitprofile.ejs", { profileId, entries });
 })
 
@@ -78,6 +92,11 @@ app.post(":profileId", async (req, res) => {
 app.post("/signup", async (req, res) => {
     const { username, password } = req.body;
     const name = username;
+    // const img = {
+    //     data: fs.readFileSync(path.join(__dirname + '/uploads/' + "bild.jpg")),
+    //     contentType: 'image/png'
+    // };
+
     const user = new User({ username, name });
     await user.setPassword(password);
     await user.save();
@@ -93,20 +112,18 @@ app.post("/", async (req, res) => {
     res.redirect("/");
 });
 
-// app.post("/profile", async (req, res) => {
-//     const { name } = req.body;
-//     console.log(name);
-//     const user = req.user;
-//     console.log(user);
-//     const entry = new Profile({ name, user: user._id });
-//     await entry.save();
-//     res.redirect("/profile");
-// });
-
-app.post("/profile", async (req, res) => {
+app.post("/profile", upload.single('image'), async (req, res) => {
     const { name } = req.body;
+    const img = {
+        data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+        contentType: 'image/png'
+    };
+    console.log(name);
+    console.log(__dirname + '/uploads/' + req.file.filename);
+    console.log(img);
     const user = req.user;
     await User.updateOne({ _id: user }, { name: name })
+    await User.updateOne({ _id: user }, { img: img })
     res.redirect("/profile");
 });
 

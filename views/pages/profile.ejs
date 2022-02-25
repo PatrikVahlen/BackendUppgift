@@ -15,12 +15,25 @@
         <div class="jumbotron">
             <h1>Profile</h1>
 
-            <form method="POST">
-                Name:<input type="text" name="name"><br>
+            <form method="POST" enctype="multipart/form-data">
+                Name:<input type="text" name="name" id="name"><br>
+                <div>
+                    <label for="image">Upload Image</label>
+                    <input type="file" id="image" name="image" value="">
+                </div>
                 <input type="submit" value="OK">
             </form>
             <p>Current Name: <%= name%>
             </p>
+        </div>
+        <h1>Uploaded Images</h1>
+        <div>
+            <div>
+                <div>
+                    <img src="data:image/<%=image.img.contentType%>;base64, <%=image.img.data.toString('base64')%>">
+                </div>
+            </div>
+
         </div>
     </main>
 
