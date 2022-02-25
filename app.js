@@ -35,14 +35,14 @@ app.get("/", async (req, res) => {
         //const entries = await Tweet.find({ user: req.user._id });
         const entries = await Tweet.find().exec();
         const tweet = await Tweet
-            .findOne({ user: "62179436d51b45608ff6b9c1" })
+            .find()
             .populate("user")
             .exec();
         // console.log(entries);
         console.log(tweet);
-        console.log(tweet.user.username);
-        console.log(tweet.content);
-        console.log(req.user.username);
+        // console.log(tweet.user.username);
+        // console.log(tweet.content);
+        // console.log(req.user.username);
         // console.log(entries);
         //console.log(req.user._id);
         res.render("pages/index.ejs", { username: req.user.username, entries, tweet });

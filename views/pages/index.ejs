@@ -17,29 +17,18 @@
                 <div class="jumbotron">
                     <h1>Welcome <%=username%>
                     </h1>
-                    <% entries.forEach(post=> { %>
-                        <div class="post">
-                            <p>
-                                <%= post.user.username%>
-                            </p>
-                            <p>
-                                <%= post.content%>
-                            </p>
-                        </div>
-                        <% }) %>
-
-                            <form method="POST">
-                                Content:<br />
-                                <textarea name="content"></textarea><br />
-                                <input type="submit" value="Save" />
-                            </form>
-                            <a href="/logout">Log out</a>
+                    <form method="POST">
+                        Content:<br />
+                        <textarea name="content"></textarea><br />
+                        <input type="submit" value="Save" />
+                    </form>
+                    <a href="/logout">Log out</a>
                 </div>
             </div class="col-sm-4">
-            <% entries.forEach(entry=> { %>
+            <% tweet.forEach(entry=> { %>
                 <div class="entry">
                     <p>
-                        <%= username%>
+                        <%= entry.user.username%>
                     </p>
                     <p>
                         <%= entry.content %>
