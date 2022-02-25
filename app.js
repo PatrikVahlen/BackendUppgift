@@ -15,6 +15,9 @@ const PORT = 3000;
 
 const upload = multer({ dest: 'uploads/' });
 
+//Import CSS
+app.use(express.static(__dirname + '/public'));
+
 app.use(express.urlencoded({ extended: true }));
 
 passport.use(User.createStrategy());
