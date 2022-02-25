@@ -31,9 +31,22 @@ app.use(passport.authenticate("session"));
 
 app.get("/", async (req, res) => {
     if (req.user) {
+        // console.log(req.user._id);
         //const entries = await Tweet.find({ user: req.user._id });
         const entries = await Tweet.find().exec();
-        res.render("pages/index.ejs", { username: req.user.username, entries });
+        const tweet = await Tweet
+            .findOne({ user: "62179436d51b45608ff6b9c1" })
+            .populate("user")
+            .exec();
+        // console.log(entries);
+        console.log(tweet);
+        console.log(tweet.user.username);
+        console.log(tweet.content);
+        console.log(req.user.username);
+        // console.log(entries);
+        //console.log(req.user._id);
+        res.render("pages/index.ejs", { username: req.user.username, entries, tweet });
+        // res.render("pages/index.ejs", { entries });
     } else {
         res.redirect("login")
     }
@@ -67,7 +80,7 @@ app.post("/signup", async (req, res) => {
 
 app.post("/", async (req, res) => {
     const { content } = req.body;
-    console.log(content);
+    //console.log(content);
     const user = req.user;
     const entry = new Tweet({ content, user: user._id });
     await entry.save();
@@ -86,7 +99,7 @@ app.post("/", async (req, res) => {
 
 app.post("/profile", async (req, res) => {
     const { name } = req.body;
-    console.log(name);
+    // console.log(name);
     const user = req.user;
     await User.updateOne({ _id: user }, { name: name })
     res.redirect("/profile");
@@ -96,6 +109,12 @@ app.get("/logout", (req, res) => {
     req.logout();
     res.redirect("./login");
 });
+
+
+console.log(Tweet.findOne({ user: "62179436d51b45608ff6b9c1" }).populate("user").exec());
+
+
+
 
 mongoose.connect("mongodb://127.0.0.1/backendUppgift");
 
