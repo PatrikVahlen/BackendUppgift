@@ -25,11 +25,11 @@
                     <a href="/logout">Log out</a>
                 </div>
             </div class="col-sm-4">
-            <% tweet.forEach(entry=> { %>
+            <% entries.forEach(entry=> { %>
                 <div class="entry">
-                    <p>
+                    <a href="/<%=entry.user.username%>">
                         <%= entry.user.username%>
-                    </p>
+                    </a>
                     <p>
                         <%= entry.content %>
                     </p>

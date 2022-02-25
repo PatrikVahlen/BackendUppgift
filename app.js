@@ -4,11 +4,10 @@ const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
 const multer = require("multer");
-//const bootstrap = require("bootstrap");
 
 const { User } = require("./models/user");
 const { Tweet } = require("./models/tweets");
-const { Profile } = require("./models/profile");
+
 
 const app = express()
 const PORT = 3000;
@@ -31,22 +30,13 @@ app.use(passport.authenticate("session"));
 
 app.get("/", async (req, res) => {
     if (req.user) {
-        // console.log(req.user._id);
         //const entries = await Tweet.find({ user: req.user._id });
-        const entries = await Tweet.find().exec();
-        const tweet = await Tweet
+        //const entries = await Tweet.find().exec();
+        const entries = await Tweet
             .find()
             .populate("user")
             .exec();
-        // console.log(entries);
-        console.log(tweet);
-        // console.log(tweet.user.username);
-        // console.log(tweet.content);
-        // console.log(req.user.username);
-        // console.log(entries);
-        //console.log(req.user._id);
-        res.render("pages/index.ejs", { username: req.user.username, entries, tweet });
-        // res.render("pages/index.ejs", { entries });
+        res.render("pages/index.ejs", { username: req.user.username, entries });
     } else {
         res.redirect("login")
     }
@@ -67,6 +57,12 @@ app.get("/signup", (req, res) => {
 
 app.get("/profile", (req, res) => {
     res.render("pages/profile.ejs", { name: req.user.name });
+})
+
+app.get("/:profileId", (req, res) => {
+    const profileId = req.params.profileId;
+    console.log(profileId);
+    res.render("pages/visitprofile.ejs", { profileId });
 })
 
 app.post("/signup", async (req, res) => {
