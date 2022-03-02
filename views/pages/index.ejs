@@ -26,17 +26,17 @@
                 </div>
             </div class="col-sm-4">
             <% entries.forEach(entry=> { %>
-                <div class="entry">
-                    <a href="/<%=entry.user.name%>">
-                        <%= entry.user.name%>
-                    </a>
-                    <p>
+                <ul class="card">
+                    <li><a href="/<%=entry.user.name%>">
+                            <%= entry.user.name%>
+                        </a></li>
+                    <li>
                         <%= entry.content %>
-                    </p>
-                    <p>
+                    </li>
+                    <li>
                         <%= entry.date %>
-                    </p>
-                </div>
+                    </li>
+                </ul>
                 <% }) %>
         </div>
         </div>
