@@ -73,6 +73,7 @@ app.get("/signup", (req, res) => {
 app.get("/profile", (req, res) => {
     if (req.user) {
         res.render("pages/profile.ejs", { name: req.user.name, image: req.user });
+        // console.log(req.user)
     } else {
         console.log("Not logged in");
         res.redirect("/login")
@@ -85,7 +86,7 @@ app.get("/:profileId", async (req, res) => {
         .find({})
         .populate("user")
         .exec();
-    // console.log(entries);
+    //console.log(entries);
     // console.log(profileId);
     res.render("pages/visitprofile.ejs", { profileId, entries });
 })

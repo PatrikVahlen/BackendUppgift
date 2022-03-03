@@ -18,7 +18,11 @@
         </div>
         <div>
             <% entries.forEach(entry=> { if(profileId===entry.user.name){%>
-                <div class="entry">
+                <div class="tweet">
+                    <div class="circular--landscape">
+                        <img
+                            src="data:entry.user/<%=entry.user.img.contentType%>;base64, <%=entry.user.img.data.toString('base64')%>">
+                    </div>
                     <p>
                         <%= entry.user.name%>
                     </p>
