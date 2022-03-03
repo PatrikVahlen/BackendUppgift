@@ -6,6 +6,7 @@ const MongoStore = require('connect-mongo');
 const multer = require("multer");
 const fs = require('fs');
 const path = require('path');
+const moment = require("moment");
 
 const { User } = require("./models/user");
 const { Tweet } = require("./models/tweets");
@@ -49,7 +50,7 @@ app.get("/", async (req, res) => {
     //const entries = await Tweet.find({ user: req.user._id });
     //const entries = await Tweet.find().exec();
     const entries = await Tweet
-        .find()
+        .find().sort('-date')
         .populate("user")
         .exec();
     res.render("pages/index.ejs", { entries });
@@ -83,11 +84,11 @@ app.get("/profile", (req, res) => {
 app.get("/:profileId", async (req, res) => {
     const profileId = req.params.profileId;
     const entries = await Tweet
-        .find({})
+        .find({}).sort('-date')
         .populate("user")
         .exec();
     //console.log(entries);
-    // console.log(profileId);
+    console.log(profileId);
     res.render("pages/visitprofile.ejs", { profileId, entries });
 })
 
@@ -157,6 +158,30 @@ app.get('/user/logout', (req, res) => {
         res.redirect('/login');
     });
 });
+
+app.get("/user/follow", async (req, res) => {
+    const profileId = req.params.follow;
+    console.log(profileId);
+    const user = req.user;
+    const user1 = req.body;
+    console.log(user._id);
+    await User.updateOne({ _id: user }, { following: user._id })
+});
+
+// app.put("/user/follow", (req, res) => {
+//     User.findByIdAndUpdate(req.body.followId, {
+//         $push: { followers: req.user._id }
+//     }, {
+//         new: true
+//     }, (err, result => {
+//         User.findByIdAndUpdate(req.user._id, {
+//             $push: { following: req.body.followId }
+//         }, { new: true }).then(result => {
+
+//         })
+//     })
+//     )
+// });
 
 mongoose.connect("mongodb://127.0.0.1/backendUppgift");
 
