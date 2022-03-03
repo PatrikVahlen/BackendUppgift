@@ -72,8 +72,12 @@ app.get("/signup", (req, res) => {
 })
 
 app.get("/profile", (req, res) => {
-    res.render("pages/profile.ejs", { name: req.user.name, image: req.user });
-
+    if (req.user) {
+        res.render("pages/profile.ejs", { name: req.user.name, image: req.user });
+    } else {
+        console.log("Not logged in");
+        res.redirect("/login")
+    }
 })
 
 app.get("/:profileId", async (req, res) => {
