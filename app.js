@@ -87,10 +87,10 @@ app.get("/:profileId", async (req, res) => {
     res.render("pages/visitprofile.ejs", { profileId, entries });
 })
 
-app.post(":profileId", async (req, res) => {
-    console.log("profileId")
-    res.redirect("/")
-})
+// app.post(":profileId", async (req, res) => {
+//     console.log("profileId")
+//     res.redirect("/")
+// })
 
 app.post("/signup", async (req, res) => {
     const { username, password } = req.body;
@@ -111,7 +111,11 @@ app.post("/", async (req, res) => {
     //console.log(content);
     const user = req.user;
     const entry = new Tweet({ content, user: user._id });
-    await entry.save();
+    try {
+        await entry.save();
+    } catch (error) {
+        console.log(error.errors);
+    }
     res.redirect("/");
 });
 
@@ -130,9 +134,20 @@ app.post("/profile", upload.single('image'), async (req, res) => {
     res.redirect("/profile");
 });
 
-app.get("/logout", (req, res) => {
+// app.get("/logout", (req, res) => {
+//     req.logout();
+//     req.session.destroy();
+//     res.redirect("/login");
+// });
+
+app.get('/user/logout', (req, res) => {
     req.logout();
-    res.redirect("./login");
+    req.session.destroy((err) => {
+        if (err) {
+            return console.log(err);
+        }
+        res.redirect('/login');
+    });
 });
 
 mongoose.connect("mongodb://127.0.0.1/backendUppgift");
