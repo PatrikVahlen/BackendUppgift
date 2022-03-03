@@ -88,7 +88,7 @@ app.get("/:profileId", async (req, res) => {
         .populate("user")
         .exec();
     //console.log(entries);
-    console.log(profileId);
+    // console.log(entries);
     res.render("pages/visitprofile.ejs", { profileId, entries });
 })
 
@@ -137,7 +137,7 @@ app.post("/profile", upload.single('image'), async (req, res) => {
     console.log(name);
     console.log(__dirname + '/uploads/' + req.file.filename);
     console.log(img);
-    const user = req.user;
+    // const user = req.user;
     await User.updateOne({ _id: user }, { name: name })
     await User.updateOne({ _id: user }, { img: img })
     res.redirect("/profile");
@@ -159,13 +159,17 @@ app.get('/user/logout', (req, res) => {
     });
 });
 
-app.get("/user/follow", async (req, res) => {
-    const profileId = req.params.follow;
-    console.log(profileId);
-    const user = req.user;
-    const user1 = req.body;
-    console.log(user._id);
-    await User.updateOne({ _id: user }, { following: user._id })
+app.get("/follower/:followId", async (req, res) => {
+    const followId = req.params.followId;
+    //console.log(profileId);
+    const user = req.user._id;
+    const user1 = user._id;
+    console.log(user);
+    console.log(followId);
+    console.log("HÄR");
+    await User.updateOne({ _id: user }, { $push: { following: followId } })
+    await User.updateOne({ _id: followId }, { $push: { followers: user._id } })
+    res.redirect("/");
 });
 
 // app.put("/user/follow", (req, res) => {

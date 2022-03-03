@@ -14,7 +14,6 @@
     <main>
         <div class="jumbotron">
             <h1>This is <%=profileId%>'s profile</h1><br>
-            <a href="/user/follow">Follow</a>
         </div>
 
         <div>
@@ -33,6 +32,12 @@
                     <p>
                         <%= entry.date %>
                     </p>
+                    <p>
+                        <%= entry.user._id %>
+                    </p>
+                    <a href="/follower/<%=entry.user._id%>">
+                        <%= entry.user._id %>
+                    </a>
                 </div>
                 <% }}) %>
         </div>
