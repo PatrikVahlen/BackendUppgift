@@ -23,14 +23,15 @@
                 </div>
                 <input type="submit" value="OK">
             </form>
-            <p>Current Name: <%= name%>
+            <p id="colorname">Current Name: <%= name%>
             </p>
         </div>
-        <h1>Uploaded Images</h1>
+        <h1>Current Profile Picture:</h1>
         <div>
             <div>
-                <div>
-                    <img src="data:image/<%=image.img.contentType%>;base64, <%=image.img.data.toString('base64')%>">
+                <div class="circular--landscape">
+                    <img src="data:image/<%=image.img.contentType%>;base64, <%=image.img.data.toString('base64')%>"
+                        id="profile_img">
                 </div>
             </div>
 

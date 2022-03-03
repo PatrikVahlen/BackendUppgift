@@ -45,17 +45,16 @@ const storage = multer.diskStorage({
 });
 
 app.get("/", async (req, res) => {
-    if (req.user) {
-        //const entries = await Tweet.find({ user: req.user._id });
-        //const entries = await Tweet.find().exec();
-        const entries = await Tweet
-            .find()
-            .populate("user")
-            .exec();
-        res.render("pages/index.ejs", { username: req.user.name, entries });
-    } else {
-        res.redirect("login")
-    }
+
+    //const entries = await Tweet.find({ user: req.user._id });
+    //const entries = await Tweet.find().exec();
+    const entries = await Tweet
+        .find()
+        .populate("user")
+        .exec();
+    res.render("pages/index.ejs", { entries });
+    // res.render("pages/index.ejs", { username: req.user.name, entries });
+
 });
 
 app.get("/login", (req, res) => {
@@ -69,7 +68,7 @@ app.post("/login", passport.authenticate("local", {
 
 app.get("/signup", (req, res) => {
     res.render("pages/signup.ejs");
-})
+});
 
 app.get("/profile", (req, res) => {
     if (req.user) {
@@ -106,7 +105,11 @@ app.post("/signup", async (req, res) => {
 
     const user = new User({ username, name, img });
     await user.setPassword(password);
-    await user.save();
+    try {
+        await user.save();
+    } catch (error) {
+        console.log(error.errors)
+    }
     res.redirect("/login");
 });
 
