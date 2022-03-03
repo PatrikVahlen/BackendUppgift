@@ -7,6 +7,7 @@ const multer = require("multer");
 const fs = require('fs');
 const path = require('path');
 const moment = require("moment");
+const flash = require("connect-flash");
 
 const { User } = require("./models/user");
 const { Tweet } = require("./models/tweets");
@@ -31,6 +32,8 @@ app.use(session({
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1/backendUppgift' })
 }));
+
+app.use(flash());
 
 app.use(passport.authenticate("session"));
 
@@ -82,6 +85,10 @@ app.get("/profile", (req, res) => {
 })
 
 app.get("/:profileId", async (req, res) => {
+    const following = req.user.following.length;
+    const followers = req.user.followers.length;
+    console.log(following);
+    console.log(followers);
     const profileId = req.params.profileId;
     const entries = await Tweet
         .find({}).sort('-date')
@@ -89,7 +96,7 @@ app.get("/:profileId", async (req, res) => {
         .exec();
     //console.log(entries);
     // console.log(entries);
-    res.render("pages/visitprofile.ejs", { profileId, entries });
+    res.render("pages/visitprofile.ejs", { profileId, entries, following, followers });
 })
 
 // app.post(":profileId", async (req, res) => {
@@ -110,7 +117,7 @@ app.post("/signup", async (req, res) => {
     try {
         await user.save();
     } catch (error) {
-        console.log(error.errors)
+        console.log(error.name)
     }
     res.redirect("/login");
 });
@@ -123,7 +130,7 @@ app.post("/", async (req, res) => {
     try {
         await entry.save();
     } catch (error) {
-        console.log(error.errors);
+        console.log(error);
     }
     res.redirect("/");
 });
@@ -134,10 +141,11 @@ app.post("/profile", upload.single('image'), async (req, res) => {
         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
         contentType: 'image/png'
     };
-    console.log(name);
-    console.log(__dirname + '/uploads/' + req.file.filename);
-    console.log(img);
-    // const user = req.user;
+    // console.log(name);
+    // console.log(__dirname + '/uploads/' + req.file.filename);
+    // console.log(img);
+    const user = req.user;
+
     await User.updateOne({ _id: user }, { name: name })
     await User.updateOne({ _id: user }, { img: img })
     res.redirect("/profile");
@@ -163,29 +171,16 @@ app.get("/follower/:followId", async (req, res) => {
     const followId = req.params.followId;
     //console.log(profileId);
     const user = req.user._id;
-    const user1 = user._id;
     console.log(user);
     console.log(followId);
     console.log("HÄR");
+    if (followId == user) {
+        console.log("Dubbel")
+    }
     await User.updateOne({ _id: user }, { $push: { following: followId } })
     await User.updateOne({ _id: followId }, { $push: { followers: user._id } })
     res.redirect("/");
 });
-
-// app.put("/user/follow", (req, res) => {
-//     User.findByIdAndUpdate(req.body.followId, {
-//         $push: { followers: req.user._id }
-//     }, {
-//         new: true
-//     }, (err, result => {
-//         User.findByIdAndUpdate(req.user._id, {
-//             $push: { following: req.body.followId }
-//         }, { new: true }).then(result => {
-
-//         })
-//     })
-//     )
-// });
 
 mongoose.connect("mongodb://127.0.0.1/backendUppgift");
 
