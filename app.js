@@ -85,24 +85,15 @@ app.get("/profile", (req, res) => {
 })
 
 app.get("/:profileId", async (req, res) => {
-    const following = req.user.following.length;
-    const followers = req.user.followers.length;
-    console.log(following);
-    console.log(followers);
+
     const profileId = req.params.profileId;
     const entries = await Tweet
         .find({}).sort('-date')
         .populate("user")
         .exec();
-    //console.log(entries);
-    // console.log(entries);
-    res.render("pages/visitprofile.ejs", { profileId, entries, following, followers });
-})
 
-// app.post(":profileId", async (req, res) => {
-//     console.log("profileId")
-//     res.redirect("/")
-// })
+    res.render("pages/visitprofile.ejs", { profileId, entries });
+})
 
 app.post("/signup", async (req, res) => {
     const { username, password } = req.body;
@@ -123,16 +114,21 @@ app.post("/signup", async (req, res) => {
 });
 
 app.post("/", async (req, res) => {
-    const { content } = req.body;
-    //console.log(content);
-    const user = req.user;
-    const entry = new Tweet({ content, user: user._id });
-    try {
-        await entry.save();
-    } catch (error) {
-        console.log(error);
+    if (req.user) {
+        const { content } = req.body;
+        //console.log(content);
+        const user = req.user;
+        const entry = new Tweet({ content, user: user._id });
+        try {
+            await entry.save();
+        } catch (error) {
+            console.log(error);
+        }
+        res.redirect("/");
+    } else {
+        console.log("Not logged in");
+        res.redirect("/login")
     }
-    res.redirect("/");
 });
 
 app.post("/profile", upload.single('image'), async (req, res) => {
@@ -141,21 +137,13 @@ app.post("/profile", upload.single('image'), async (req, res) => {
         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
         contentType: 'image/png'
     };
-    // console.log(name);
-    // console.log(__dirname + '/uploads/' + req.file.filename);
-    // console.log(img);
+
     const user = req.user;
 
     await User.updateOne({ _id: user }, { name: name })
     await User.updateOne({ _id: user }, { img: img })
     res.redirect("/profile");
 });
-
-// app.get("/logout", (req, res) => {
-//     req.logout();
-//     req.session.destroy();
-//     res.redirect("/login");
-// });
 
 app.get('/user/logout', (req, res) => {
     req.logout();
@@ -168,18 +156,23 @@ app.get('/user/logout', (req, res) => {
 });
 
 app.get("/follower/:followId", async (req, res) => {
-    const followId = req.params.followId;
-    //console.log(profileId);
-    const user = req.user._id;
-    console.log(user);
-    console.log(followId);
-    console.log("HÄR");
-    if (followId == user) {
-        console.log("Dubbel")
+    if (req.user) {
+        const followId = req.params.followId;
+        //console.log(profileId);
+        const user = req.user._id;
+        console.log(user);
+        console.log(followId);
+        if (followId == user) {
+            console.log("Can't follow youself")
+        };
+
+        await User.updateOne({ _id: user }, { $push: { following: followId } })
+        await User.updateOne({ _id: followId }, { $push: { followers: user._id } })
+        res.redirect("/");
+    } else {
+        console.log("Not logged in")
+        res.redirect("/login");
     }
-    await User.updateOne({ _id: user }, { $push: { following: followId } })
-    await User.updateOne({ _id: followId }, { $push: { followers: user._id } })
-    res.redirect("/");
 });
 
 mongoose.connect("mongodb://127.0.0.1/backendUppgift");

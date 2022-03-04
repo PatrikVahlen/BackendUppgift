@@ -16,12 +16,6 @@
             <h1>This is <%=profileId%>'s profile</h1><br>
         </div>
         <div>
-            <%=profileId%> follows this many users: <%=following%>
-        </div>
-        <div>
-            <%=profileId%> has this many followers: <%=followers%>
-        </div>
-        <div>
             <% entries.forEach(entry=> { if(profileId===entry.user.name){%>
                 <div class="tweet">
                     <div class="circular--landscape">
@@ -40,9 +34,17 @@
                     <p>
                         <%= entry.user._id %>
                     </p>
+                    <p>
+                        <%= entry.user.name%> follows this many: <%= entry.user.following.length %>
+                    </p>
+                    <p>
+                        <%= entry.user.name%> has this many followers: <%= entry.user.followers.length %>
+                    </p>
+
                     <a href="/follower/<%=entry.user._id%>">
                         Follow
                     </a>
+
                 </div>
                 <% }}) %>
         </div>
