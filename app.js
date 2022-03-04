@@ -39,26 +39,33 @@ app.use(passport.authenticate("session"));
 
 //What is this?
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.fieldname + '-' + Date.now())
+//     }
+// });
 
 app.get("/", async (req, res) => {
 
     //const entries = await Tweet.find({ user: req.user._id });
     //const entries = await Tweet.find().exec();
-    const entries = await Tweet
-        .find().sort('-date')
-        .populate("user")
-        .exec();
-    res.render("pages/index.ejs", { entries });
+    if (req.user) {
+        const entries = await Tweet
+            .find({ user: req.user.following }).sort('-date')
+            .populate("user")
+            .exec();
+        res.render("pages/index.ejs", { entries });
+    } else {
+        const entries = await Tweet
+            .find({}).sort('-date')
+            .populate("user")
+            .exec();
+        res.render("pages/index.ejs", { entries });
+    }
     // res.render("pages/index.ejs", { username: req.user.name, entries });
-
 });
 
 app.get("/allusers", async (req, res) => {
@@ -98,7 +105,6 @@ app.get("/profile", (req, res) => {
 });
 
 app.get("/:profileId", async (req, res) => {
-
     const profileId = req.params.profileId;
     const entries = await Tweet
         .find({}).sort('-date')
@@ -115,13 +121,12 @@ app.post("/signup", async (req, res) => {
         data: fs.readFileSync(path.join(__dirname + '/uploads/' + "bild.jpg")),
         contentType: 'image/png'
     };
-
     const user = new User({ username, name, img });
     await user.setPassword(password);
     try {
         await user.save();
     } catch (error) {
-        console.log(error.name)
+        console.log(error.err)
     }
     res.redirect("/login");
 });
