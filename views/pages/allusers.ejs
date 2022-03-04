@@ -13,7 +13,7 @@
 
     <main>
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-12">
                 <div class="jumbotron">
                     <h1>Welcome</h1>
                     <form method="POST">
@@ -23,25 +23,19 @@
                     </form>
                     <a href="/user/logout">Log out</a>
                 </div>
-            </div class="col-sm-4">
+            </div class="col-sm-12">
             <% entries.forEach(entry=> { %>
                 <div class="tweet">
                     <div class="circular--landscape">
                         <img
                             src="data:entry.user/<%=entry.user.img.contentType%>;base64, <%=entry.user.img.data.toString('base64')%>">
                     </div>
-                    <p><a href="/<%=entry.user.name%>">
-                            <%= entry.user.name%>
-                        </a></p>
-                    <p>
-                        <%= entry.content %>
-                    </p>
-                    <p>
-                        <%= entry.date %>
-                    </p>
-                    <p>
-                        <%= entry.user.following[0]%>
-                    </p>
+                    <ul>
+                        <il><a href="/<%=entry.user.name%>">
+                                <%= entry.user.name%>
+                            </a>
+                        </il>
+                    </ul>
                 </div>
                 <% }) %>
         </div>

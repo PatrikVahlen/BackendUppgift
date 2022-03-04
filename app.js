@@ -61,6 +61,19 @@ app.get("/", async (req, res) => {
 
 });
 
+app.get("/allusers", async (req, res) => {
+
+    //const entries = await Tweet.find({ user: req.user._id });
+    //const entries = await Tweet.find().exec();
+    const entries = await Tweet
+        .find().sort('-date')
+        .populate("user")
+        .exec();
+    res.render("pages/allusers.ejs", { entries });
+    // res.render("pages/index.ejs", { username: req.user.name, entries });
+
+});
+
 app.get("/login", (req, res) => {
     res.render("pages/login.ejs")
 });
@@ -82,7 +95,7 @@ app.get("/profile", (req, res) => {
         console.log("Not logged in");
         res.redirect("/login")
     }
-})
+});
 
 app.get("/:profileId", async (req, res) => {
 
@@ -93,7 +106,7 @@ app.get("/:profileId", async (req, res) => {
         .exec();
 
     res.render("pages/visitprofile.ejs", { profileId, entries });
-})
+});
 
 app.post("/signup", async (req, res) => {
     const { username, password } = req.body;
@@ -160,8 +173,8 @@ app.get("/follow/:followId", async (req, res) => {
         const followId = req.params.followId;
         //console.log(profileId);
         const user = req.user._id;
-        console.log(user);
-        console.log(followId);
+        // console.log(user);
+        // console.log(followId);
 
         let duplicateFollower = await User.findOne({ _id: user, following: followId });
 
@@ -187,8 +200,8 @@ app.get("/unfollow/:followId", async (req, res) => {
         const followId = req.params.followId;
         //console.log(profileId);
         const user = req.user._id;
-        console.log(user);
-        console.log(followId);
+        // console.log(user);
+        // console.log(followId);
 
         let duplicateFollower = await User.findOne({ _id: user, following: followId });
 
