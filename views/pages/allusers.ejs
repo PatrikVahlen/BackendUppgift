@@ -31,10 +31,18 @@
                             src="data:entry.user/<%=entry.user.img.contentType%>;base64, <%=entry.user.img.data.toString('base64')%>">
                     </div>
                     <ul>
-                        <il><a href="/<%=entry.user.name%>">
+                        <p><a href="/<%=entry.user.name%>">
                                 <%= entry.user.name%>
-                            </a>
-                        </il>
+                            </a></p>
+                        <p>
+                            <%= entry.content %>
+                        </p>
+                        <p>
+                            <%= entry.date %>
+                        </p>
+                        <p>
+                            <%= entry.user.following[0]%>
+                        </p>
                     </ul>
                 </div>
                 <% }) %>
