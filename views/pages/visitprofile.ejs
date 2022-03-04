@@ -41,8 +41,11 @@
                         <%= entry.user.name%> has this many followers: <%= entry.user.followers.length %>
                     </p>
 
-                    <a href="/follower/<%=entry.user._id%>">
+                    <a href="/follow/<%=entry.user._id%>">
                         Follow
+                    </a>
+                    <a href="/unfollow/<%=entry.user._id%>">
+                        Un-Follow
                     </a>
 
                 </div>

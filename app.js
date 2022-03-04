@@ -155,19 +155,51 @@ app.get('/user/logout', (req, res) => {
     });
 });
 
-app.get("/follower/:followId", async (req, res) => {
+app.get("/follow/:followId", async (req, res) => {
     if (req.user) {
         const followId = req.params.followId;
         //console.log(profileId);
         const user = req.user._id;
         console.log(user);
         console.log(followId);
+
+        let duplicateFollower = await User.findOne({ _id: user, following: followId });
+
         if (followId == user) {
             console.log("Can't follow youself")
-        };
+        } else if (duplicateFollower != null) {
+            console.log("Already following user")
+        } else {
+            await User.updateOne({ _id: user }, { $push: { following: followId } })
+            await User.updateOne({ _id: followId }, { $push: { followers: user._id } })
+        }
+        res.redirect("/");
+    } else {
+        console.log("Not logged in")
+        res.redirect("/login");
+    }
+});
 
-        await User.updateOne({ _id: user }, { $push: { following: followId } })
-        await User.updateOne({ _id: followId }, { $push: { followers: user._id } })
+app.get("/unfollow/:followId", async (req, res) => {
+    // console.log("UNFOLLOW");
+    // res.redirect("/");
+    if (req.user) {
+        const followId = req.params.followId;
+        //console.log(profileId);
+        const user = req.user._id;
+        console.log(user);
+        console.log(followId);
+
+        let duplicateFollower = await User.findOne({ _id: user, following: followId });
+
+        if (followId == user) {
+            console.log("Can't unfollow youself")
+        } else if (duplicateFollower = null) {
+            console.log("Not following user")
+        } else {
+            await User.updateOne({ _id: user }, { $pull: { following: followId } })
+            await User.updateOne({ _id: followId }, { $pull: { followers: user._id } })
+        }
         res.redirect("/");
     } else {
         console.log("Not logged in")
