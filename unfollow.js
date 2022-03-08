@@ -13,7 +13,7 @@ router.get("/unfollow/:followId", async (req, res) => {
 
         if (followId == user) {
             console.log("Can't unfollow youself")
-        } else if (duplicateFollower = null) {
+        } else if (duplicateFollower == null) {
             console.log("Not following user")
         } else {
             await User.updateOne({ _id: user }, { $pull: { following: followId } })

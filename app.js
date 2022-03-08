@@ -3,9 +3,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
-const multer = require("multer");
-const fs = require('fs');
-const path = require('path');
+
 
 const { User } = require("./models/user");
 const { Tweet } = require("./models/tweets");
@@ -20,7 +18,6 @@ const profileRouter = require("./profile").router;
 const app = express()
 const PORT = 3000;
 
-const upload = multer({ dest: 'uploads/' });
 
 //Import CSS
 app.use(express.static(__dirname + '/public'));
@@ -59,11 +56,13 @@ app.post("/login", passport.authenticate("local", {
 
 app.get("/:profileId", async (req, res) => {
     const profileId = req.params.profileId;
+    //console.log(profileId);
     const entries = await Tweet
         .find({}).sort('-date')
         .populate("user")
         .exec();
     res.render("pages/visitprofile.ejs", { profileId, entries });
+    //console.log(entries)
     //console.log(profileId)
 });
 
