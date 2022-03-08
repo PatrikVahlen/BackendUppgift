@@ -14,22 +14,22 @@ router.get("/allusers", async (req, res) => {
 
 });
 
-router.post("/allusers", async (req, res) => {
-    if (req.user) {
-        const { content } = req.body;
-        //console.log(content);
-        const user = req.user;
-        const entry = new Tweet({ content, user: user._id });
-        try {
-            await entry.save();
-        } catch (error) {
-            console.log(error);
-        }
-        res.redirect("/allusers");
-    } else {
-        console.log("Not logged in");
-        res.redirect("/login")
-    }
-});
+// router.post("/allusers", async (req, res) => {
+//     if (req.user) {
+//         const { content } = req.body;
+//         //console.log(content);
+//         const user = req.user;
+//         const entry = new Tweet({ content, user: user._id });
+//         try {
+//             await entry.save();
+//         } catch (error) {
+//             console.log(error);
+//         }
+//         res.redirect("/allusers");
+//     } else {
+//         console.log("Not logged in");
+//         res.redirect("/login")
+//     }
+// });
 
 exports.router = router;

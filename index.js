@@ -29,7 +29,8 @@ router.post("/", async (req, res) => {
         try {
             await entry.save();
         } catch (error) {
-            console.log(error);
+            //console.log(error);
+            console.log("Tweet exceeds 140 chars")
         }
         res.redirect("/");
     } else {
