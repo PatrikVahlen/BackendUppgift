@@ -38,8 +38,9 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1/backendUppgift' })
 }));
 
-app.use(passport.authenticate("session"));
+//middleware
 
+app.use(passport.authenticate("session"));
 app.use("/", allusersRouter);
 app.use("/", indexRouter);
 app.use("/", followRouter);
@@ -63,6 +64,7 @@ app.get("/:profileId", async (req, res) => {
         .populate("user")
         .exec();
     res.render("pages/visitprofile.ejs", { profileId, entries });
+    //console.log(profileId)
 });
 
 app.get('/user/logout', (req, res) => {

@@ -4,6 +4,7 @@ const { User } = require("./models/user");
 const router = express.Router();
 
 router.get("/follow/:followId", async (req, res) => {
+
     if (req.user) {
         const followId = req.params.followId;
         const user = req.user._id;

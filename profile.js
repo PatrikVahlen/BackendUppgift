@@ -9,8 +9,7 @@ const upload = multer({ dest: 'uploads/' });
 
 router.get("/profile", (req, res) => {
     if (req.user) {
-        res.render("pages/profile.ejs", { name: req.user.name, image: req.user });
-        // console.log(req.user)
+        res.render("pages/profile.ejs", { name: req.user.name, image: req.user, username: req.user.username });
     } else {
         console.log("Not logged in");
         res.redirect("/login")

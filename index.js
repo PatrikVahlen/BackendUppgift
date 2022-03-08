@@ -4,19 +4,20 @@ const router = express.Router();
 const { Tweet } = require("./models/tweets");
 
 router.get("/", async (req, res) => {
-
+    let welcomeName = "";
     if (req.user) {
+        welcomeName = req.user.name;
         const entries = await Tweet
             .find({ user: req.user.following }).sort('-date')
             .populate("user")
             .exec();
-        res.render("pages/index.ejs", { entries });
+        res.render("pages/index.ejs", { entries, welcomeName });
     } else {
         const entries = await Tweet
             .find({}).sort('-date')
             .populate("user")
             .exec();
-        res.render("pages/index.ejs", { entries });
+        res.render("pages/index.ejs", { entries, welcomeName });
     }
 });
 

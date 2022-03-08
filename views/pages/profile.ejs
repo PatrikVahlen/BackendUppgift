@@ -13,7 +13,8 @@
 
     <main>
         <div class="jumbotron">
-            <h1>Profile</h1>
+            <h1>Profile of username: <%=username%>
+            </h1>
 
             <form method="POST" enctype="multipart/form-data">
                 Name:<input type="text" name="name" id="name" required><br>
@@ -23,10 +24,12 @@
                 </div>
                 <input type="submit" value="OK">
             </form>
-            <p id="colorname">Current Name: <%= name%>
-            </p>
         </div>
-        <h1>Current Profile Picture:</h1>
+        <h1 id="colorname">Current Name: <%= name%>
+        </h1>
+        <div>
+            <h1>Current Profile Picture:</h1>
+        </div>
         <div>
             <div>
                 <div class="circular--landscape">
@@ -34,7 +37,6 @@
                         id="profile_img">
                 </div>
             </div>
-
         </div>
     </main>
 

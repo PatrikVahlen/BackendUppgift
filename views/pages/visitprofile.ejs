@@ -15,6 +15,7 @@
         <div class="jumbotron">
             <h1>This is <%=profileId%>'s profile</h1><br>
         </div>
+
         <div>
             <% entries.forEach(entry=> { if(profileId===entry.user.name){%>
                 <div class="tweet">
@@ -40,7 +41,6 @@
                     <p>
                         <%= entry.user.name%> has this many followers: <%= entry.user.followers.length %>
                     </p>
-
 
                     <a href="/follow/<%=entry.user._id%>">
                         Follow

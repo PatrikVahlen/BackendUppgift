@@ -21,7 +21,7 @@ router.post("/signup", async (req, res) => {
     try {
         await user.save();
     } catch (error) {
-        console.log(error.err)
+        console.log("Username already exists")
     }
     res.redirect("/login");
 });
