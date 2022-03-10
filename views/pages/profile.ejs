@@ -17,13 +17,19 @@
             </h1>
 
             <form method="POST" enctype="multipart/form-data">
-                <label for="name">Choose name:</label>
-                <input type="text" name="name" id="name" required><br>
-                <label for="email">Input Email:</label>
-                <input type="email" id="email" name="email" value=""></br>
-                <label for="image">Upload Image:</label>
-                <input type="file" id="image" name="image" value="" required></br>
-                <input type="submit" value="OK">
+                <div class="form-group form-control-lg">
+                    <label for="name">Choose name:</label>
+                    <input class="form-control" type="text" name="name" id="name" required><br>
+                </div><br>
+                <div class="form-group form-control-lg">
+                    <label for="email">Input Email:</label>
+                    <input class="form-control" type="email" id="email" name="email" value="">
+                </div></br>
+                <div class="form-group form-control-lg">
+                    <label for="image">Upload Image:</label>
+                    <input class="form-control-file" type="file" id="image" name="image" value="" required></br>
+                </div><br><br>
+                <button type="submit" class="btn btn-primary">Update profile</button>
             </form>
         </div>
         <h1 id="colorname">Current Name: <%= name%>
