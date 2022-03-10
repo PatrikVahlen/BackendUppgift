@@ -17,25 +17,26 @@
             </h1>
 
             <form method="POST" enctype="multipart/form-data">
-                Name:<input type="text" name="name" id="name" required><br>
-                <div>
-                    <label for="image">Upload Image</label>
-                    <input type="file" id="image" name="image" value="" required>
-                </div>
+                <label for="name">Choose name:</label>
+                <input type="text" name="name" id="name" required><br>
+                <label for="email">Input Email:</label>
+                <input type="email" id="email" name="email" value=""></br>
+                <label for="image">Upload Image:</label>
+                <input type="file" id="image" name="image" value="" required></br>
                 <input type="submit" value="OK">
             </form>
         </div>
         <h1 id="colorname">Current Name: <%= name%>
         </h1>
+        <h1>Current Email: <%=email%>
+        </h1>
         <div>
             <h1>Current Profile Picture:</h1>
         </div>
         <div>
-            <div>
-                <div class="circular--landscape">
-                    <img src="data:image/<%=image.img.contentType%>;base64, <%=image.img.data.toString('base64')%>"
-                        id="profile_img">
-                </div>
+            <div class="circular--landscape">
+                <img src="data:image/<%=image.img.contentType%>;base64, <%=image.img.data.toString('base64')%>"
+                    id="profile_img">
             </div>
         </div>
     </main>

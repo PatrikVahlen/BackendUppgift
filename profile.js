@@ -9,7 +9,12 @@ const upload = multer({ dest: 'uploads/' });
 
 router.get("/profile", (req, res) => {
     if (req.user) {
-        res.render("pages/profile.ejs", { name: req.user.name, image: req.user, username: req.user.username });
+        res.render("pages/profile.ejs", {
+            name: req.user.name,
+            image: req.user,
+            username: req.user.username,
+            email: req.user.email
+        });
     } else {
         console.log("Not logged in");
         res.redirect("/login")
@@ -17,14 +22,16 @@ router.get("/profile", (req, res) => {
 });
 
 router.post("/profile", upload.single('image'), async (req, res) => {
-    const { name } = req.body;
+    const { name, email } = req.body;
     const img = {
         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
         contentType: 'image/png'
     };
+    console.log(email);
     const user = req.user;
     await User.updateOne({ _id: user }, { name: name })
     await User.updateOne({ _id: user }, { img: img })
+    await User.updateOne({ _id: user }, { email: email })
     res.redirect("/profile");
 });
 

@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
     name: { type: String, unique: false, required: false },
     img: { data: Buffer, contentType: String },
     followers: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
-    following: [{ type: mongoose.Schema.ObjectId, ref: "User" }]
+    following: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
+    email: { type: String, unique: false, required: false }
 });
 
 userSchema.plugin(passportLocalMongoose);
