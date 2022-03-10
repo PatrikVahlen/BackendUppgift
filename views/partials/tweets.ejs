@@ -1,0 +1,25 @@
+<% entries.forEach(entry=> { %>
+    <div class="tweet">
+        <div class="circular--landscape">
+            <a href="/profile/<%=entry.user._id%>">
+                <img
+                    src="data:entry.user/<%=entry.user.img.contentType%>;base64, <%=entry.user.img.data.toString('base64')%>">
+            </a>
+        </div>
+        <a href="/profile/<%=entry.user._id%>">
+            <%=entry.user.name%>
+        </a>
+        <p>
+            <%= entry.content %>
+        </p>
+        <p>
+            <%= entry.date %>
+        </p>
+        <a href="/follow/<%=entry.user._id%>">
+            Follow
+        </a>
+        <a href="/unfollow/<%=entry.user._id%>">
+            Un-Follow
+        </a>
+    </div>
+    <% }) %>
