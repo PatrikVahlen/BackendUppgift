@@ -44,6 +44,12 @@
                     <p>
                         <%= entry.date %>
                     </p>
+                    <a href="/follow/<%=entry.user._id%>">
+                        Follow
+                    </a>
+                    <a href="/unfollow/<%=entry.user._id%>">
+                        Un-Follow
+                    </a>
                 </div>
                 <% }) %>
         </div>

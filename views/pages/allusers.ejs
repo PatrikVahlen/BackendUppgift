@@ -26,17 +26,21 @@
                                 src="data:entry.user/<%=entry.user.img.contentType%>;base64, <%=entry.user.img.data.toString('base64')%>">
                         </a>
                     </div>
-                    <ul>
-                        <p><a href="/profile/<%=entry.user._id%>">
-                                <%= entry.user.name%>
-                            </a></p>
-                        <p>
-                            <%= entry.content %>
-                        </p>
-                        <p>
-                            <%= entry.date %>
-                        </p>
-                    </ul>
+                    <a href="/profile/<%=entry.user._id%>">
+                        <%=entry.user.name%>
+                    </a>
+                    <p>
+                        <%= entry.content %>
+                    </p>
+                    <p>
+                        <%= entry.date %>
+                    </p>
+                    <a href="/follow/<%=entry.user._id%>">
+                        Follow
+                    </a>
+                    <a href="/unfollow/<%=entry.user._id%>">
+                        Un-Follow
+                    </a>
                 </div>
                 <% }) %>
         </div>

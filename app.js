@@ -23,7 +23,6 @@ const PORT = 3000;
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 
-
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -62,8 +61,6 @@ app.post("/login", passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login"
 }));
-
-
 
 app.get('/user/logout', (req, res) => {
     req.logout();
