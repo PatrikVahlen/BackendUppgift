@@ -17,6 +17,7 @@ router.post("/signup", async (req, res) => {
         contentType: 'image/png'
     };
     const user = new User({ username, name, img });
+
     await user.setPassword(password);
     try {
         await user.save();
