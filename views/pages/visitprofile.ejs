@@ -13,11 +13,22 @@
 
     <main>
         <div class="jumbotron">
-            <h1>This is <%=profileId%>'s profile</h1><br>
+            <h1>This is <%=entries[0].user.name%>
+                    <%=entries[0].user.lastname%>'s profile</h1><br>
+            <h1>First Name: <%= entries[0].user.name%>
+            </h1>
+            <h1>Last Name: <%= entries[0].user.lastname%>
+            </h1>
+            <h1>Email: <%=entries[0].user.email%>
+            </h1>
+            <div class="circular--landscape">
+                <img
+                    src="data:entries[0].user/<%=entries[0].user.img.contentType%>;base64, <%=entries[0].user.img.data.toString('base64')%>">
+            </div>
         </div>
 
         <div>
-            <% entries.forEach(entry=> { if(profileId===entry.user.name){%>
+            <% entries.forEach(entry=> { %>
                 <div class="tweet">
                     <div class="circular--landscape">
                         <img
@@ -26,14 +37,11 @@
                     <p>
                         <%= entry.user.name%>
                     </p>
-                    <p>
+                    <p id="colorname">
                         <%= entry.content %>
                     </p>
                     <p>
                         <%= entry.date %>
-                    </p>
-                    <p>
-                        <%= entry.user._id %>
                     </p>
                     <p>
                         Follows: <%= entry.user.following.length %>
@@ -49,7 +57,7 @@
                         Un-Follow
                     </a>
                 </div>
-                <% }}) %>
+                <% }) %>
         </div>
     </main>
 

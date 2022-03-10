@@ -30,14 +30,14 @@
             <% entries.forEach(entry=> { %>
                 <div class="tweet">
                     <div class="circular--landscape">
-                        <a href="/<%=entry.user.name%>">
+                        <a href="/profile/<%=entry.user._id%>">
                             <img
                                 src="data:entry.user/<%=entry.user.img.contentType%>;base64, <%=entry.user.img.data.toString('base64')%>">
                         </a>
                     </div>
-                    <p><a href="/<%=entry.user.name%>">
-                            <%= entry.user.name%>
-                        </a></p>
+                    <a href="/profile/<%=entry.user._id%>">
+                        <%=entry.user.name%>
+                    </a>
                     <p>
                         <%= entry.content %>
                     </p>

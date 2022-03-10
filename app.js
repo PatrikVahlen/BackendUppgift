@@ -35,6 +35,15 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1/backendUppgift' })
 }));
 
+app.get("/profile/:profileId", async (req, res) => {
+    const profileId = req.params.profileId;
+    const entries = await Tweet
+        .find({ user: profileId }).sort('-date')
+        .populate("user")
+        .exec();
+    res.render("pages/visitprofile.ejs", { profileId, entries });
+});
+
 //middleware
 
 app.use(passport.authenticate("session"));
@@ -54,17 +63,7 @@ app.post("/login", passport.authenticate("local", {
     failureRedirect: "/login"
 }));
 
-app.get("/:profileId", async (req, res) => {
-    const profileId = req.params.profileId;
-    console.log(profileId);
-    const entries = await Tweet
-        .find({}).sort('-date')
-        .populate("user")
-        .exec();
-    res.render("pages/visitprofile.ejs", { profileId, entries });
-    //console.log(entries)
-    //console.log(profileId)
-});
+
 
 app.get('/user/logout', (req, res) => {
     req.logout();
