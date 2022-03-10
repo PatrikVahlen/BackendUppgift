@@ -13,7 +13,8 @@ router.get("/profile", (req, res) => {
             name: req.user.name,
             image: req.user,
             username: req.user.username,
-            email: req.user.email
+            email: req.user.email,
+            lastname: req.user.lastname
         });
     } else {
         console.log("Not logged in");
@@ -22,14 +23,15 @@ router.get("/profile", (req, res) => {
 });
 
 router.post("/profile", upload.single('image'), async (req, res) => {
-    const { name, email } = req.body;
+    const { name, lastname, email } = req.body;
     const img = {
         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
         contentType: 'image/png'
     };
-    console.log(email);
+    console.log(lastname);
     const user = req.user;
     await User.updateOne({ _id: user }, { name: name })
+    await User.updateOne({ _id: user }, { lastname: lastname })
     await User.updateOne({ _id: user }, { img: img })
     await User.updateOne({ _id: user }, { email: email })
     res.redirect("/profile");

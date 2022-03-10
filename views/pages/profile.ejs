@@ -18,8 +18,12 @@
 
             <form method="POST" enctype="multipart/form-data">
                 <div class="form-group form-control-lg">
-                    <label for="name">Choose name:</label>
+                    <label for="name">First name:</label>
                     <input class="form-control" type="text" name="name" id="name" required><br>
+                </div><br>
+                <div class="form-group form-control-lg">
+                    <label for="name">Last name:</label>
+                    <input class="form-control" type="text" name="lastname" id="lastname" required><br>
                 </div><br>
                 <div class="form-group form-control-lg">
                     <label for="email">Input Email:</label>
@@ -32,9 +36,11 @@
                 <button type="submit" class="btn btn-primary">Update profile</button>
             </form>
         </div>
-        <h1 id="colorname">Current Name: <%= name%>
+        <h1>First Name: <%= name%>
         </h1>
-        <h1>Current Email: <%=email%>
+        <h1>Last Name: <%= lastname%>
+        </h1>
+        <h1>Email: <%=email%>
         </h1>
         <div>
             <h1>Current Profile Picture:</h1>

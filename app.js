@@ -56,7 +56,7 @@ app.post("/login", passport.authenticate("local", {
 
 app.get("/:profileId", async (req, res) => {
     const profileId = req.params.profileId;
-    //console.log(profileId);
+    console.log(profileId);
     const entries = await Tweet
         .find({}).sort('-date')
         .populate("user")
