@@ -36,10 +36,10 @@
                         <%= entry.user._id %>
                     </p>
                     <p>
-                        <%= entry.user.name%> follows this many: <%= entry.user.following.length %>
+                        Follows: <%= entry.user.following.length %>
                     </p>
                     <p>
-                        <%= entry.user.name%> has this many followers: <%= entry.user.followers.length %>
+                        Followers: <%= entry.user.followers.length %>
                     </p>
 
                     <a href="/follow/<%=entry.user._id%>">

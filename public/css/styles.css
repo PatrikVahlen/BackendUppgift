@@ -1,5 +1,12 @@
 h1 {
-    color: green;
+    color: #007bff;;
+}
+
+.tweet{
+    border: 2px solid #007bff;
+    border-radius: 25px;
+    margin: 25px;
+    padding: 5px;
 }
 
 .circular--landscape { 
