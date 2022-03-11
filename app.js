@@ -43,7 +43,7 @@ app.use("/", followRouter);
 app.use("/", unfollowRouter);
 app.use("/", signupRouter);
 app.use("/", profileRouter);
-app.use("/", hashtagRouter);
+app.use("/hashtags", hashtagRouter);
 
 app.get("/login", (req, res) => {
     res.render("pages/login.ejs")
@@ -62,6 +62,15 @@ app.get("/profile/:profileId", async (req, res) => {
         .exec();
     res.render("pages/visitprofile.ejs", { profileId, entries });
 });
+
+// app.get("/hashtags/:hashId", async (req, res) => {
+//     console.log(req.params.hashId);
+//     const entries = await Tweet
+//         .find({ hashtag: "#TEST" }).sort('-date')
+//         .populate("user")
+//         .exec();
+//     res.render("pages/hashtags.ejs", { entries })
+// });
 
 app.get('/user/logout', (req, res) => {
     req.logout();

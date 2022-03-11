@@ -3,10 +3,11 @@ const express = require("express");
 const router = express.Router();
 const { Tweet } = require("./models/tweets");
 
-router.get("/hashtags/hashtags", async (req, res) => {
-    console.log(req.params.hashId);
+router.get("/:hashId", async (req, res) => {
+    let hashtag = "#"+req.params.hashId;
+    //console.log(hashtag);
     const entries = await Tweet
-        .find({ hashtag: "#TEST" }).sort('-date')
+        .find({ hashtag: hashtag }).sort('-date')
         .populate("user")
         .exec();
     res.render("pages/hashtags.ejs", { entries })

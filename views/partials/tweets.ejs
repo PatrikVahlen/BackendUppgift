@@ -11,7 +11,8 @@
         </a>
         <p>
                 <%entry.content.split(" ").forEach(hash => { if (hash[0] == "#") {%>
-                <a href="/hashtags/hashtags">
+                 
+                <a href="/hashtags/<%=hash.slice(1)%>">
                     <%=hash%>
                         </a>
                         <% } else { %>
