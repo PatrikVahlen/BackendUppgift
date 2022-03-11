@@ -24,9 +24,8 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     if (req.user) {
         const { content } = req.body;
-        //Look for word starting (^) with # and add after
-        const regex = /#[a-zA-Z0-9]+\b/g;
-        //const regex = /^#[a-zA-Z0-9]+\b/g;
+        //Look for word starting (^) with # and add \p{L} i.e. all character (å,ä,ö) after
+        const regex = /(^|\B)#[\p{L}0-9]*/igu;
         const hashtag = content.match(regex)
         console.log(hashtag);
         const user = req.user;
