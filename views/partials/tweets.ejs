@@ -10,7 +10,7 @@
             <%=entry.user.name%>
         </a>
         <p>
-            <%entry.content.split(" ").forEach(hash => { if (hash.match(/#[a-zA-Z]+\b/g)) {%>
+            <%entry.content.split(" ").forEach(hash => { if (hash[0]=="#") {%>
                  
                 <a href=" /hashtags/<%=hash.slice(1)%>">
                 <%=hash%>
