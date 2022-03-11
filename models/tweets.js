@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const tweetSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.ObjectId, ref: "User" },
     content: { type: String, required: true, maxLength: 140 },
-    date: { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now },
+    hashtag: [{ type: String }]
 });
 
 const Tweet = mongoose.model("Tweet", tweetSchema);

@@ -25,9 +25,10 @@ router.post("/", async (req, res) => {
     if (req.user) {
         const { content } = req.body;
         const regex = /#[a-zA-Z]+\b/g;
-        console.log(content.match(regex));
+        const hashtag = content.match(regex)
+        console.log(hashtag);
         const user = req.user;
-        const entry = new Tweet({ content, user: user._id });
+        const entry = new Tweet({ content, user: user._id, hashtag: hashtag });
         try {
             await entry.save();
         } catch (error) {
