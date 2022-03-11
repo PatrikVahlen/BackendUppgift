@@ -18,11 +18,6 @@ const profileRouter = require("./profile").router;
 const app = express()
 const PORT = 3000;
 
-
-//Import CSS
-app.use(express.static(__dirname + '/public'));
-app.use(express.urlencoded({ extended: true }));
-
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -34,7 +29,11 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1/backendUppgift' })
 }));
 
-//middleware
+//MIDDLEWARE
+//Make public available i.e. CSS
+app.use(express.static(__dirname + '/public'));
+//Parse form-data to req.body
+app.use(express.urlencoded({ extended: true }));
 
 app.use(passport.authenticate("session"));
 app.use("/", allusersRouter);

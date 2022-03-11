@@ -24,6 +24,8 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     if (req.user) {
         const { content } = req.body;
+        const regex = /#[a-zA-Z]+\b/g;
+        console.log(content.match(regex));
         const user = req.user;
         const entry = new Tweet({ content, user: user._id });
         try {
