@@ -14,6 +14,7 @@ const followRouter = require("./follow").router;
 const unfollowRouter = require("./unfollow").router;
 const signupRouter = require("./signup").router;
 const profileRouter = require("./profile").router;
+const hashtagRouter = require("./hashtag").router;
 
 const app = express()
 const PORT = 3000;
@@ -42,6 +43,7 @@ app.use("/", followRouter);
 app.use("/", unfollowRouter);
 app.use("/", signupRouter);
 app.use("/", profileRouter);
+app.use("/", hashtagRouter);
 
 app.get("/login", (req, res) => {
     res.render("pages/login.ejs")
