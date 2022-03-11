@@ -3,14 +3,13 @@ const express = require("express");
 const router = express.Router();
 const { Tweet } = require("./models/tweets");
 
-router.get("/:hashId", async (req, res) => {
-    let hashtag = "#" + req.params.hashId;
-    console.log(hashtag);
+router.get("/profile/:profileId", async (req, res) => {
+    const profileId = req.params.profileId;
     const entries = await Tweet
-        .find({ hashtag: hashtag }).sort('-date')
+        .find({ user: profileId }).sort('-date')
         .populate("user")
         .exec();
-    res.render("pages/hashtags.ejs", { entries })
+    res.render("pages/visitprofile.ejs", { profileId, entries });
 });
 
 exports.router = router;

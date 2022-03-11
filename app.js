@@ -15,6 +15,7 @@ const unfollowRouter = require("./unfollow").router;
 const signupRouter = require("./signup").router;
 const profileRouter = require("./profile").router;
 const hashtagRouter = require("./hashtag").router;
+const visitprofileRouter = require("./visitprofile").router;
 
 const app = express()
 const PORT = 3000;
@@ -44,6 +45,7 @@ app.use("/", unfollowRouter);
 app.use("/", signupRouter);
 app.use("/", profileRouter);
 app.use("/hashtags", hashtagRouter);
+app.use("/", visitprofileRouter);
 
 app.get("/login", (req, res) => {
     res.render("pages/login.ejs")
@@ -54,14 +56,14 @@ app.post("/login", passport.authenticate("local", {
     failureRedirect: "/login"
 }));
 
-app.get("/profile/:profileId", async (req, res) => {
-    const profileId = req.params.profileId;
-    const entries = await Tweet
-        .find({ user: profileId }).sort('-date')
-        .populate("user")
-        .exec();
-    res.render("pages/visitprofile.ejs", { profileId, entries });
-});
+// app.get("/profile/:profileId", async (req, res) => {
+//     const profileId = req.params.profileId;
+//     const entries = await Tweet
+//         .find({ user: profileId }).sort('-date')
+//         .populate("user")
+//         .exec();
+//     res.render("pages/visitprofile.ejs", { profileId, entries });
+// });
 
 // app.get("/hashtags/:hashId", async (req, res) => {
 //     console.log(req.params.hashId);
