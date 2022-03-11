@@ -10,7 +10,13 @@
             <%=entry.user.name%>
         </a>
         <p>
-            <%= entry.content %>
+                <%entry.content.split(" ").forEach(hash => { if (hash[0] == "#") {%>
+                <a href="/hashtags/hashtags">
+                    <%=hash%>
+                        </a>
+                        <% } else { %>
+                            <%=hash%>
+                                <%}})%>
         </p>
         <p>
             <%= entry.date %>
