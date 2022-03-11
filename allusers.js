@@ -11,8 +11,6 @@ router.get("/allusers", async (req, res) => {
         .populate("user")
         .exec();
     res.render("pages/allusers.ejs", { entries });
-
-
 });
 
 exports.router = router;
