@@ -9,6 +9,8 @@ router.get("/signup", (req, res) => {
     res.render("pages/signup.ejs");
 });
 
+//https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/
+
 router.post("/signup", async (req, res) => {
     const { username, password } = req.body;
     const name = username;
