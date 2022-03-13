@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 const { Tweet } = require("./models/tweets");
 
+//If logged in print only follow tweets else print all tweets
+
 router.get("/", async (req, res) => {
     let welcomeName = "";
     if (req.user) {
@@ -20,6 +22,8 @@ router.get("/", async (req, res) => {
         res.render("pages/index.ejs", { entries, welcomeName });
     }
 });
+
+//Save tweets if logged in and catch hashtags and save the tags
 
 router.post("/", async (req, res) => {
     if (req.user) {
