@@ -24,7 +24,8 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     if (req.user) {
         const { content } = req.body;
-        //Look for word starting (^) with # and add \p{L} i.e. all character (å,ä,ö) after
+        //Look for word starting (^|\B) with # and after add \p{L} i.e. all character (å,ä,ö) 
+        //and then number 0-9 /i to recognize case sensitive i.e [a-zA-z], /g look in whole string, /u special chars
         const regex = /(^|\B)#[\p{L}0-9]*/igu;
         const hashtag = content.match(regex)
         console.log(hashtag);
